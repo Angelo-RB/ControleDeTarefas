@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="0a28c8a8-a08b-45e8-8acc-d5f28b01accb" ChangeDateTime="06/22/2021 01:32:21">
+    <Property Name="ElementName" Value="[dbo].[Tarefa].[Percentual]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Tarefa]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PercentualDeDallas" />
+  </Operation>
+</Operations>

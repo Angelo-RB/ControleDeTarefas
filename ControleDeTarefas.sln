@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31410.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleDeTarefas", "ControleDeTarefas\ControleDeTarefas.csproj", "{5C10941E-F381-489C-BA28-85E03BF75329}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "BDTarefas", "BDTarefas\BDTarefas.sqlproj", "{DEBFBBAE-E85C-4407-B153-C46B13FFF0E7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5C10941E-F381-489C-BA28-85E03BF75329}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C10941E-F381-489C-BA28-85E03BF75329}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C10941E-F381-489C-BA28-85E03BF75329}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C10941E-F381-489C-BA28-85E03BF75329}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEBFBBAE-E85C-4407-B153-C46B13FFF0E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEBFBBAE-E85C-4407-B153-C46B13FFF0E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEBFBBAE-E85C-4407-B153-C46B13FFF0E7}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{DEBFBBAE-E85C-4407-B153-C46B13FFF0E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEBFBBAE-E85C-4407-B153-C46B13FFF0E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEBFBBAE-E85C-4407-B153-C46B13FFF0E7}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {74328F6C-97DC-45DF-83E0-3DA4B11C54EB}
+	EndGlobalSection
+EndGlobal
