@@ -12,18 +12,18 @@ namespace ControleDeTarefas.Controlador
     {
         public void InserirContato(Contato contato)
         {
-            string enderecoDBEmpresa =
+            string enderecoDBTarefas =
                 @"Data Source=(LocalDb)\MSSqlLocalDB;Initial Catalog=DBTarefa;Integrated Security=True;Pooling=False";
 
             SqlConnection conexaoComBanco = new SqlConnection();
-            conexaoComBanco.ConnectionString = enderecoDBEmpresa;
+            conexaoComBanco.ConnectionString = enderecoDBTarefas;
             conexaoComBanco.Open();
 
             SqlCommand comandoInsercao = new SqlCommand();
             comandoInsercao.Connection = conexaoComBanco;
 
             string sqlInsercao =
-                @"INSERT INTO Contato 
+                @"INSERT INTO TBCONTATO 
 	                (
 		                [NOME], 
 		                [EMAIL], 
@@ -60,11 +60,11 @@ namespace ControleDeTarefas.Controlador
 
         public Contato SelecionarContatoPorId(int idPesquisado)
         {
-            string enderecoDBEmpresa =
+            string enderecoDBTarefas =
               @"Data Source=(LocalDb)\MSSqlLocalDB;Initial Catalog=DBTarefa;Integrated Security=True;Pooling=False";
 
             SqlConnection conexaoComBanco = new SqlConnection();
-            conexaoComBanco.ConnectionString = enderecoDBEmpresa;
+            conexaoComBanco.ConnectionString = enderecoDBTarefas;
             conexaoComBanco.Open();
 
             SqlCommand comandoSelecao = new SqlCommand();
@@ -79,7 +79,7 @@ namespace ControleDeTarefas.Controlador
                     [EMPRESA],
                     [CARGO]
                 FROM 
-                    CONTATO
+                    TBCONTATO
                 WHERE 
                     ID = @ID";
 
@@ -108,18 +108,18 @@ namespace ControleDeTarefas.Controlador
 
         public void ExcluirContato(Contato contato)
         {
-            string enderecoDBEmpresa =
+            string enderecoDBTarefas =
                @"Data Source=(LocalDb)\MSSqlLocalDB;Initial Catalog=DBTarefa;Integrated Security=True;Pooling=False";
 
             SqlConnection conexaoComBanco = new SqlConnection();
-            conexaoComBanco.ConnectionString = enderecoDBEmpresa;
+            conexaoComBanco.ConnectionString = enderecoDBTarefas;
             conexaoComBanco.Open();
 
             SqlCommand comandoExclusao = new SqlCommand();
             comandoExclusao.Connection = conexaoComBanco;
 
             string sqlExclusao =
-                @"DELETE FROM CONTATO 	                
+                @"DELETE FROM TBCONTATO 	                
                  WHERE 
                   [ID] = @ID";
 
@@ -134,18 +134,18 @@ namespace ControleDeTarefas.Controlador
 
         public void EditarContato(Contato contato)
         {
-            string enderecoDBEmpresa =
+            string enderecoDBTarefas =
                @"Data Source=(LocalDb)\MSSqlLocalDB;Initial Catalog=DBTarefa;Integrated Security=True;Pooling=False";
 
             SqlConnection conexaoComBanco = new SqlConnection();
-            conexaoComBanco.ConnectionString = enderecoDBEmpresa;
+            conexaoComBanco.ConnectionString = enderecoDBTarefas;
             conexaoComBanco.Open();
 
             SqlCommand comandoAtualizacao = new SqlCommand();
             comandoAtualizacao.Connection = conexaoComBanco;
 
             string sqlAtualizacao =
-                @"UPDATE CONTATO 
+                @"UPDATE TBCONTATO 
                  SET	
                   [NOME] = @NOME, 
                   [EMAIL]=@EMAIL, 
@@ -171,11 +171,11 @@ namespace ControleDeTarefas.Controlador
 
         public List<Contato> SelecionarTodosOsContatos()
         {
-            string enderecoDBEmpresa =
+            string enderecoDBTarefas =
               @"Data Source=(LocalDb)\MSSqlLocalDB;Initial Catalog=DBTarefa;Integrated Security=True;Pooling=False";
 
             SqlConnection conexaoComBanco = new SqlConnection();
-            conexaoComBanco.ConnectionString = enderecoDBEmpresa;
+            conexaoComBanco.ConnectionString = enderecoDBTarefas;
             conexaoComBanco.Open();
 
             SqlCommand comandoSelecao = new SqlCommand();
@@ -190,7 +190,7 @@ namespace ControleDeTarefas.Controlador
                         [EMPRESA],
                         [CARGO] 
                     FROM 
-                        CONTATO";
+                        TBCONTATO";
 
             comandoSelecao.CommandText = sqlSelecao;
 

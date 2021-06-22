@@ -12,18 +12,18 @@ namespace ControleDeTarefas.Controlador
     {
         public void InserirTarefa(Tarefa tarefa)
         {
-            string enderecoDBEmpresa =
+            string enderecoDBTarefas =
                 @"Data Source=(LocalDb)\MSSqlLocalDB;Initial Catalog=DBTarefa;Integrated Security=True;Pooling=False";
 
             SqlConnection conexaoComBanco = new SqlConnection();
-            conexaoComBanco.ConnectionString = enderecoDBEmpresa;
+            conexaoComBanco.ConnectionString = enderecoDBTarefas;
             conexaoComBanco.Open();
 
             SqlCommand comandoInsercao = new SqlCommand();
             comandoInsercao.Connection = conexaoComBanco;
 
             string sqlInsercao =
-                @"INSERT INTO TAREFA 
+                @"INSERT INTO TBTAREFA 
 	                (
 		                [TITULO], 
 		                [DATACRIACAO], 
@@ -60,11 +60,11 @@ namespace ControleDeTarefas.Controlador
 
         public Tarefa SelecionarTarefaPorId(int idPesquisado)
         {
-            string enderecoDBEmpresa =
+            string enderecoDBTarefas =
               @"Data Source=(LocalDb)\MSSqlLocalDB;Initial Catalog=DBTarefa;Integrated Security=True;Pooling=False";
 
             SqlConnection conexaoComBanco = new SqlConnection();
-            conexaoComBanco.ConnectionString = enderecoDBEmpresa;
+            conexaoComBanco.ConnectionString = enderecoDBTarefas;
             conexaoComBanco.Open();
 
             SqlCommand comandoSelecao = new SqlCommand();
@@ -79,7 +79,7 @@ namespace ControleDeTarefas.Controlador
                     [PRIORIDADE],
                     [PERCENTUAL]
                 FROM 
-                    TAREFA
+                    TBTAREFA
                 WHERE 
                     ID = @ID";
 
@@ -108,18 +108,18 @@ namespace ControleDeTarefas.Controlador
 
         public void ExcluirTarefa(Tarefa tarefa)
         {
-            string enderecoDBEmpresa =
+            string enderecoDBTarefas =
                @"Data Source=(LocalDb)\MSSqlLocalDB;Initial Catalog=DBTarefa;Integrated Security=True;Pooling=False";
 
             SqlConnection conexaoComBanco = new SqlConnection();
-            conexaoComBanco.ConnectionString = enderecoDBEmpresa;
+            conexaoComBanco.ConnectionString = enderecoDBTarefas;
             conexaoComBanco.Open();
 
             SqlCommand comandoExclusao = new SqlCommand();
             comandoExclusao.Connection = conexaoComBanco;
 
             string sqlExclusao =
-                @"DELETE FROM TAREFA 	                
+                @"DELETE FROM TBTAREFA 	                
                  WHERE 
                   [ID] = @ID";
 
@@ -134,18 +134,18 @@ namespace ControleDeTarefas.Controlador
 
         public void EditaTarefa(Tarefa tarefa)
         {
-            string enderecoDBEmpresa =
+            string enderecoDBTarefas =
                @"Data Source=(LocalDb)\MSSqlLocalDB;Initial Catalog=DBTarefa;Integrated Security=True;Pooling=False";
 
             SqlConnection conexaoComBanco = new SqlConnection();
-            conexaoComBanco.ConnectionString = enderecoDBEmpresa;
+            conexaoComBanco.ConnectionString = enderecoDBTarefas;
             conexaoComBanco.Open();
 
             SqlCommand comandoAtualizacao = new SqlCommand();
             comandoAtualizacao.Connection = conexaoComBanco;
 
             string sqlAtualizacao =
-                @"UPDATE TAREFA 
+                @"UPDATE TBTAREFA 
                  SET	
                   [TITULO] = @TITULO, 
                   [DATACRIACAO]=@DATACRIACAO, 
@@ -171,17 +171,17 @@ namespace ControleDeTarefas.Controlador
 
         public List<Tarefa> SelecionarTodasAsTarefas()
         {
-            string enderecoDBEmpresa =
+            string enderecoDBTarefas =
               @"Data Source=(LocalDb)\MSSqlLocalDB;Initial Catalog=DBTarefa;Integrated Security=True;Pooling=False";
 
             SqlConnection conexaoComBanco = new SqlConnection();
-            conexaoComBanco.ConnectionString = enderecoDBEmpresa;
+            conexaoComBanco.ConnectionString = enderecoDBTarefas;
             conexaoComBanco.Open();
 
             SqlCommand comandoSelecao = new SqlCommand();
             comandoSelecao.Connection = conexaoComBanco;
 
-            string sqlSelecao =               
+            string sqlSelecao =
                      @"SELECT 
                         [ID], 
                         [TITULO], 
@@ -190,7 +190,7 @@ namespace ControleDeTarefas.Controlador
                         [PRIORIDADE],
                         [PERCENTUAL] 
                     FROM 
-                        TAREFA";
+                        TBTAREFA";
 
             comandoSelecao.CommandText = sqlSelecao;
 
