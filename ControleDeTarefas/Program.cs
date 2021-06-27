@@ -27,7 +27,7 @@ namespace ControleDeTarefas
             Console.WriteLine("║                         ║");
             Console.WriteLine("║         Digite:         ║");
             Console.WriteLine("║                         ║");
-            Console.WriteLine("║   1: Menu Lista         ║");
+            Console.WriteLine("║   1: Menu Tarefa        ║");
             Console.WriteLine("║   2: Menu Contatos      ║");
             Console.WriteLine("║   3: Menu Compromissos  ║");
             Console.WriteLine("║                         ║");

@@ -18,16 +18,18 @@ namespace ControleDeTarefas.Controlador
             comandoInsercao.Connection = con;
 
             string sqlInsercao =
-                @"INSERT INTO TBLISTA
+                @"INSERT INTO TBTAREFA
                     (
-                        [TITULO],
+                        [TITULO], 
                         [DATACRIACAO],
+                        [DATACONCLUSAO],
                         [PRIORIDADE]
                     )
                     VALUES
                     (
                         @TITULO,
                         @DATACRIACAO,
+                        @DATACONCLUSAO,
                         @PRIORIDADE
                     );";
 
@@ -123,11 +125,13 @@ namespace ControleDeTarefas.Controlador
             comandoAtualizacao.Connection = con;
 
             string sqlAtualizacao =
-                @"UPDATE TBLISTA
+                @"UPDATE TBTAREFA
                     SET
-                        [TITULO] = @TITULO,
+                        [TITULO] = @TITULO,, 
+                        [DATACRIACAO] = @DATACRIACAO, 
                         [DATACONCLUSAO] = @DATACONCLUSAO,
-                        [PRIORIDADE] = @PRIORIDADE
+                        [PRIORIDADE] = @PRIORIDADE,
+                        [PERCENTUAL] = @PERCENTUAL
                     WHERE
                         [ID] = @ID";
 
@@ -155,7 +159,9 @@ namespace ControleDeTarefas.Controlador
                         [ID], 
                         [TITULO], 
                         [DATACRIACAO], 
-                        [PRIORIDADE] 
+                        [DATACONCLUSAO], 
+                        [PRIORIDADE],
+                        [PERCENTUAL]
                     FROM 
                         TBTAREFA
                     ORDER BY 
@@ -201,7 +207,9 @@ namespace ControleDeTarefas.Controlador
                         [ID], 
                         [TITULO], 
                         [DATACRIACAO], 
-                        [PRIORIDADE] 
+                        [DATACONCLUSAO], 
+                        [PRIORIDADE],
+                        [PERCENTUAL]
                     FROM 
                         TBTAREFA
                     WHERE
@@ -248,9 +256,10 @@ namespace ControleDeTarefas.Controlador
                 @"SELECT 
                         [ID], 
                         [TITULO], 
-                        [DATACRIACAO],
-                        [DATACONCLUSAO],
-                        [PRIORIDADE] 
+                        [DATACRIACAO], 
+                        [DATACONCLUSAO], 
+                        [PRIORIDADE],
+                        [PERCENTUAL]
                     FROM 
                         TBTAREFA
                     WHERE
@@ -276,10 +285,10 @@ namespace ControleDeTarefas.Controlador
 
                 int prioridade = Convert.ToInt32(leitorTarefas["PRIORIDADE"]);
 
-                Tarefa lista = new Tarefa(titulo, dataCriacao, dataConclusao, prioridade);
-                lista.Id = id;
+                Tarefa tarefa = new Tarefa(titulo, dataCriacao, dataConclusao, prioridade);
+                tarefa.Id = id;
 
-                tarefasConcluidas.Add(lista);
+                tarefasConcluidas.Add(tarefa);
             }
 
             con.Close();
