@@ -13,17 +13,23 @@ namespace ControleDeTarefas.Dominio
         public DateTime DataCriacao;
         public DateTime DataConclusao;
         public int Prioridade;
-        public string Percentual;
 
-        public Tarefa(string titulo, DateTime dataCriacao, DateTime dataConclusao, int prioridade, string percentual)
+        public Tarefa(string titulo, DateTime dataCriacao, int prioridade)
+        {
+            Titulo = titulo;
+            DataCriacao = dataCriacao;
+            Prioridade = prioridade;
+        }
+
+        public Tarefa(string titulo, DateTime dataCriacao, DateTime dataConclusao,
+            int prioridade)
         {
             Titulo = titulo;
             DataCriacao = dataCriacao;
             DataConclusao = dataConclusao;
             Prioridade = prioridade;
-            Percentual = percentual;
         }
-        
+
     }   
 
         

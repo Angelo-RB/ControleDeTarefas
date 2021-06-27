@@ -11,11 +11,11 @@ namespace ControleDeTarefas.Dominio
     {
         public string Nome;
         public string Email;
-        public int Telefone;
+        public string Telefone;
         public string Empresa;
         public string Cargo;
 
-        public Contato(string nome, string email, int telefone, string empresa, string cargo)
+        public Contato(string nome, string email, string telefone, string empresa, string cargo)
         {
             Nome = nome;
             Email = email;
@@ -23,7 +23,5 @@ namespace ControleDeTarefas.Dominio
             Empresa = empresa;
             Cargo = cargo;
         }
-        
-
     }
 }

@@ -6,15 +6,15 @@ using ControleDeTarefas.Controlador;
 namespace ControladorTarefaTeste
 {
     [TestClass]
-    public class TestesProjetoTarefa
-    {        
+    public class TesteDaListaTarefa
+    {
         public ControladorTarefa controlador;
         public Tarefa tarefaTeste;
-        //public TesteDaListaTarefa()
-        //{
-        //    controlador = new ControladorTarefa();
-        //    TarefaTeste = new Tarefa("Testeprimario", new DateTime(2021, 06, 21), 1);
-        //}
+        public TesteDaListaTarefa()
+        {
+            controlador = new ControladorTarefa();
+            tarefaTeste = new Tarefa("Teste1", new DateTime(2021, 06, 21), 1);
+        }
 
         [TestMethod]
         public void DeveInserirUmaTarefaNova()
@@ -27,5 +27,6 @@ namespace ControladorTarefaTeste
         {
             controlador.ExcluirTarefa(tarefaTeste);
         }
+
     }
 }

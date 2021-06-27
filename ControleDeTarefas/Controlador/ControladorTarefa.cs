@@ -12,76 +12,58 @@ namespace ControleDeTarefas.Controlador
     {
         public void InserirTarefa(Tarefa tarefa)
         {
-            string enderecoDBTarefas =
-                @"Data Source=(LocalDb)\MSSqlLocalDB;Initial Catalog=DBTarefa;Integrated Security=True;Pooling=False";
-
-            SqlConnection conexaoComBanco = new SqlConnection();
-            conexaoComBanco.ConnectionString = enderecoDBTarefas;
-            conexaoComBanco.Open();
+            SqlConnection con = BancoDeDados.AbrirConexao();
 
             SqlCommand comandoInsercao = new SqlCommand();
-            comandoInsercao.Connection = conexaoComBanco;
+            comandoInsercao.Connection = con;
 
             string sqlInsercao =
-                @"INSERT INTO TBTAREFA 
-	                (
-		                [TITULO], 
-		                [DATACRIACAO], 
-		                [DATACONCLUSAO],
-                        [PRIORIDADE],
-                        [PERCENTUAL]
-	                ) 
-	                VALUES
-	                (
-                        @TITULO, 
-		                @DATACRIACAO, 
-		                @DATACONCLUSAO,
-                        @PRIORIDADE,
-                        @PERCENTUAL
-	                );";
+                @"INSERT INTO TBLISTA
+                    (
+                        [TITULO],
+                        [DATACRIACAO],
+                        [PRIORIDADE]
+                    )
+                    VALUES
+                    (
+                        @TITULO,
+                        @DATACRIACAO,
+                        @PRIORIDADE
+                    );";
 
-            sqlInsercao +=
-                @"SELECT SCOPE_IDENTITY();";
+            sqlInsercao += @"SELECT SCOPE_IDENTITY();";
 
             comandoInsercao.CommandText = sqlInsercao;
 
             comandoInsercao.Parameters.AddWithValue("TITULO", tarefa.Titulo);
             comandoInsercao.Parameters.AddWithValue("DATACRIACAO", tarefa.DataCriacao);
-            comandoInsercao.Parameters.AddWithValue("DATACONCLUSAO", tarefa.DataConclusao);
             comandoInsercao.Parameters.AddWithValue("PRIORIDADE", tarefa.Prioridade);
-            comandoInsercao.Parameters.AddWithValue("PERCENTUAL", tarefa.Percentual);
 
-            //object id = comandoInsercao.ExecuteScalar();
+            object id = comandoInsercao.ExecuteScalar();
 
-            //tarefa.Id = Convert.ToInt32(id);
+            tarefa.Id = Convert.ToInt32(id);
 
-            conexaoComBanco.Close();
+            con.Close();
         }
 
         public Tarefa SelecionarTarefaPorId(int idPesquisado)
         {
-            string enderecoDBTarefas =
-              @"Data Source=(LocalDb)\MSSqlLocalDB;Initial Catalog=DBTarefa;Integrated Security=True;Pooling=False";
-
-            SqlConnection conexaoComBanco = new SqlConnection();
-            conexaoComBanco.ConnectionString = enderecoDBTarefas;
-            conexaoComBanco.Open();
+            SqlConnection con = BancoDeDados.AbrirConexao();
 
             SqlCommand comandoSelecao = new SqlCommand();
-            comandoSelecao.Connection = conexaoComBanco;
+            comandoSelecao.Connection = con;
 
             string sqlSelecao =
                 @"SELECT 
-                    [ID], 
-                    [TITULO], 
-                    [DATACRIACAO], 
-                    [DATACONCLUSAO], 
-                    [PRIORIDADE],
-                    [PERCENTUAL]
-                FROM 
-                    TBTAREFA
-                WHERE 
-                    ID = @ID";
+                        [ID], 
+                        [TITULO], 
+                        [DATACRIACAO],
+                        [DATACONCLUSAO],
+                        [PRIORIDADE]
+                    FROM 
+                        TBTAREFA
+                    WHERE 
+                        ID = @ID";
 
             comandoSelecao.CommandText = sqlSelecao;
             comandoSelecao.Parameters.AddWithValue("ID", idPesquisado);
@@ -92,36 +74,37 @@ namespace ControleDeTarefas.Controlador
                 return null;
 
             int id = Convert.ToInt32(leitorTarefas["ID"]);
+
             string titulo = Convert.ToString(leitorTarefas["TITULO"]);
+
             DateTime dataCriacao = Convert.ToDateTime(leitorTarefas["DATACRIACAO"]);
-            DateTime dataConclusao = Convert.ToDateTime(leitorTarefas["DATACONCLUSAO"]);
+
+            DateTime dataConclusao = DateTime.MinValue;
+
+            if (leitorTarefas["DATACONCLUSAO"] != DBNull.Value)
+                dataConclusao = Convert.ToDateTime(leitorTarefas["DATACONCLUSAO"]);
+
             int prioridade = Convert.ToInt32(leitorTarefas["PRIORIDADE"]);
-            string percentual = Convert.ToString(leitorTarefas["PERCENTUAL"]);
 
-            Tarefa f = new Tarefa(titulo, dataCriacao, dataConclusao, prioridade, percentual);
-            f.Id = id;
+            Tarefa l = new Tarefa(titulo, dataCriacao, dataConclusao, prioridade);
+            l.Id = id;
 
-            conexaoComBanco.Close();
+            con.Close();
 
-            return f;
+            return l;
         }
 
         public void ExcluirTarefa(Tarefa tarefa)
         {
-            string enderecoDBTarefas =
-               @"Data Source=(LocalDb)\MSSqlLocalDB;Initial Catalog=DBTarefa;Integrated Security=True;Pooling=False";
-
-            SqlConnection conexaoComBanco = new SqlConnection();
-            conexaoComBanco.ConnectionString = enderecoDBTarefas;
-            conexaoComBanco.Open();
+            SqlConnection con = BancoDeDados.AbrirConexao();
 
             SqlCommand comandoExclusao = new SqlCommand();
-            comandoExclusao.Connection = conexaoComBanco;
+            comandoExclusao.Connection = con;
 
             string sqlExclusao =
-                @"DELETE FROM TBTAREFA 	                
-                 WHERE 
-                  [ID] = @ID";
+                @"DELETE FROM TBLISTA	                
+	                WHERE 
+		                [ID] = @ID";
 
             comandoExclusao.CommandText = sqlExclusao;
 
@@ -129,68 +112,54 @@ namespace ControleDeTarefas.Controlador
 
             comandoExclusao.ExecuteNonQuery();
 
-            conexaoComBanco.Close();
+            con.Close();
         }
 
         public void EditaTarefa(Tarefa tarefa)
         {
-            string enderecoDBTarefas =
-               @"Data Source=(LocalDb)\MSSqlLocalDB;Initial Catalog=DBTarefa;Integrated Security=True;Pooling=False";
-
-            SqlConnection conexaoComBanco = new SqlConnection();
-            conexaoComBanco.ConnectionString = enderecoDBTarefas;
-            conexaoComBanco.Open();
+            SqlConnection con = BancoDeDados.AbrirConexao();
 
             SqlCommand comandoAtualizacao = new SqlCommand();
-            comandoAtualizacao.Connection = conexaoComBanco;
+            comandoAtualizacao.Connection = con;
 
             string sqlAtualizacao =
-                @"UPDATE TBTAREFA 
-                 SET	
-                  [TITULO] = @TITULO, 
-                  [DATACRIACAO]=@DATACRIACAO, 
-                  [DATACONCLUSAO]=@DATACONCLUSAO, 
-                  [PRIORIDADE]=@PRIORIDADE,
-                  [PERCENTUAL]=@PERCENTUAL
-                 WHERE 
-                  [ID] = @ID";
+                @"UPDATE TBLISTA
+                    SET
+                        [TITULO] = @TITULO,
+                        [DATACONCLUSAO] = @DATACONCLUSAO,
+                        [PRIORIDADE] = @PRIORIDADE
+                    WHERE
+                        [ID] = @ID";
 
             comandoAtualizacao.CommandText = sqlAtualizacao;
 
             comandoAtualizacao.Parameters.AddWithValue("ID", tarefa.Id);
             comandoAtualizacao.Parameters.AddWithValue("TITULO", tarefa.Titulo);
-            comandoAtualizacao.Parameters.AddWithValue("DATACRIACAO", tarefa.DataCriacao);
             comandoAtualizacao.Parameters.AddWithValue("DATACONCLUSAO", tarefa.DataConclusao);
             comandoAtualizacao.Parameters.AddWithValue("PRIORIDADE", tarefa.Prioridade);
-            comandoAtualizacao.Parameters.AddWithValue("PERCENTUAL", tarefa.Percentual);
 
             comandoAtualizacao.ExecuteNonQuery();
 
-            conexaoComBanco.Close();
+            con.Close();
         }
 
         public List<Tarefa> SelecionarTodasAsTarefas()
         {
-            string enderecoDBTarefas =
-              @"Data Source=(LocalDb)\MSSqlLocalDB;Initial Catalog=DBTarefa;Integrated Security=True;Pooling=False";
-
-            SqlConnection conexaoComBanco = new SqlConnection();
-            conexaoComBanco.ConnectionString = enderecoDBTarefas;
-            conexaoComBanco.Open();
+            SqlConnection con = BancoDeDados.AbrirConexao();
 
             SqlCommand comandoSelecao = new SqlCommand();
-            comandoSelecao.Connection = conexaoComBanco;
+            comandoSelecao.Connection = con;
 
             string sqlSelecao =
-                     @"SELECT 
+                @"SELECT 
                         [ID], 
                         [TITULO], 
                         [DATACRIACAO], 
-                        [DATACONCLUSAO], 
-                        [PRIORIDADE],
-                        [PERCENTUAL] 
+                        [PRIORIDADE] 
                     FROM 
-                        TBTAREFA";
+                        TBTAREFA
+                    ORDER BY 
+                        [PRIORIDADE] ASC";
 
             comandoSelecao.CommandText = sqlSelecao;
 
@@ -201,20 +170,121 @@ namespace ControleDeTarefas.Controlador
             while (leitorTarefas.Read())
             {
                 int id = Convert.ToInt32(leitorTarefas["ID"]);
+
                 string titulo = Convert.ToString(leitorTarefas["TITULO"]);
+
                 DateTime dataCriacao = Convert.ToDateTime(leitorTarefas["DATACRIACAO"]);
-                DateTime dataConclusao = Convert.ToDateTime(leitorTarefas["DATACONCLUSAO"]);
+
                 int prioridade = Convert.ToInt32(leitorTarefas["PRIORIDADE"]);
-                string percentual = Convert.ToString(leitorTarefas["PERCENTUAL"]);
 
-                Tarefa f = new Tarefa(titulo, dataCriacao, dataConclusao, prioridade, percentual);
-                f.Id = id;
+                Tarefa tarefa = new Tarefa(titulo, dataCriacao, prioridade);
 
-                tarefas.Add(f);
+                tarefa.Id = id;
+
+                tarefas.Add(tarefa);
             }
 
-            conexaoComBanco.Close();
+            con.Close();
+
             return tarefas;
+        }
+
+        public List<Tarefa> SelecionarTodasAsTarefasEmAberto()
+        {
+            SqlConnection con = BancoDeDados.AbrirConexao();
+
+            SqlCommand comandoSelecao = new SqlCommand();
+            comandoSelecao.Connection = con;
+
+            string sqlSelecao =
+                @"SELECT 
+                        [ID], 
+                        [TITULO], 
+                        [DATACRIACAO], 
+                        [PRIORIDADE] 
+                    FROM 
+                        TBTAREFA
+                    WHERE
+                        [PERCENTUAL] != '100%'
+                    ORDER BY
+                        [PRIORIDADE] ASC, [DATACRIACAO]";
+
+            comandoSelecao.CommandText = sqlSelecao;
+
+            SqlDataReader leitorTarefas = comandoSelecao.ExecuteReader();
+
+            List<Tarefa> tarefas = new List<Tarefa>();
+
+            while (leitorTarefas.Read())
+            {
+                int id = Convert.ToInt32(leitorTarefas["ID"]);
+
+                string titulo = Convert.ToString(leitorTarefas["TITULO"]);
+
+                DateTime dataCriacao = Convert.ToDateTime(leitorTarefas["DATACRIACAO"]);
+
+                int prioridade = Convert.ToInt32(leitorTarefas["PRIORIDADE"]);
+
+                Tarefa tarefa = new Tarefa(titulo, dataCriacao, prioridade);
+
+                tarefa.Id = id;
+
+                tarefas.Add(tarefa);
+            }
+
+            con.Close();
+
+            return tarefas;
+        }
+
+        public List<Tarefa> SelecionarTodasAsTarefasConcluidas()
+        {
+            SqlConnection con = BancoDeDados.AbrirConexao();
+
+            SqlCommand comandoSelecao = new SqlCommand();
+            comandoSelecao.Connection = con;
+
+            string sqlSelecao =
+                @"SELECT 
+                        [ID], 
+                        [TITULO], 
+                        [DATACRIACAO],
+                        [DATACONCLUSAO],
+                        [PRIORIDADE] 
+                    FROM 
+                        TBTAREFA
+                    WHERE
+                        PERCENTUAL = '100%'
+                    ORDER BY
+                        [PRIORIDADE] ASC, [DATACRIACAO]";
+
+            comandoSelecao.CommandText = sqlSelecao;
+
+            SqlDataReader leitorTarefas = comandoSelecao.ExecuteReader();
+
+            List<Tarefa> tarefasConcluidas = new List<Tarefa>();
+
+            while (leitorTarefas.Read())
+            {
+                int id = Convert.ToInt32(leitorTarefas["ID"]);
+
+                string titulo = Convert.ToString(leitorTarefas["TITULO"]);
+
+                DateTime dataCriacao = Convert.ToDateTime(leitorTarefas["DATACRIACAO"]);
+
+                DateTime dataConclusao = Convert.ToDateTime(leitorTarefas["DATACONCLUSAO"]);
+
+                int prioridade = Convert.ToInt32(leitorTarefas["PRIORIDADE"]);
+
+                Tarefa lista = new Tarefa(titulo, dataCriacao, dataConclusao, prioridade);
+                lista.Id = id;
+
+                tarefasConcluidas.Add(lista);
+            }
+
+            con.Close();
+
+            return tarefasConcluidas;
         }
     }
     

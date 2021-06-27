@@ -5,14 +5,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace TestesProjetoTarefa
 {
     [TestClass]
-    public class TesteDosContatos
+    public class TesteContato
     {
         public ControladorContato controlador;
         public Contato contatoTeste;
-        public TesteDosContatos()
+        public TesteContato()
         {
             controlador = new ControladorContato();
-            contatoTeste = new Contato("Teste", "devteste@gmail.com", 123456789, "Academia", "Desenvolvedor");
+            contatoTeste = new Contato("Teste3", "admemail@teste.com", "998635265", "Academia", "Suporte");
         }
 
         [TestMethod]
@@ -24,7 +24,7 @@ namespace TestesProjetoTarefa
         [TestMethod]
         public void DeveAtualizarContato()
         {
-            controlador.EditarContato(contatoTeste);
+            controlador.AtualizarContato(contatoTeste);
         }
 
         [TestMethod]

@@ -10,78 +10,121 @@ namespace ControleDeTarefas.Controlador
 {
     public class ControladorContato
     {
-        public void InserirContato(Contato contato)
+        public void InserirContato(Contato contatos)
         {
-            string enderecoDBTarefas =
-                @"Data Source=(LocalDb)\MSSqlLocalDB;Initial Catalog=DBTarefa;Integrated Security=True;Pooling=False";
-
-            SqlConnection conexaoComBanco = new SqlConnection();
-            conexaoComBanco.ConnectionString = enderecoDBTarefas;
-            conexaoComBanco.Open();
+            SqlConnection con = BancoDeDados.AbrirConexao();
 
             SqlCommand comandoInsercao = new SqlCommand();
-            comandoInsercao.Connection = conexaoComBanco;
+            comandoInsercao.Connection = con;
 
             string sqlInsercao =
-                @"INSERT INTO TBCONTATO 
-	                (
-		                [NOME], 
-		                [EMAIL], 
-		                [TELEFONE],
+                @"INSERT INTO TBCONTATO
+                    (
+                        [NOME],
+                        [EMAIL],
+                        [TELEFONE],
                         [EMPRESA],
                         [CARGO]
-	                ) 
-	                VALUES
-	                (
-                        @NOME, 
-		                @EMAIL, 
-		                @TELEFONE,
+                    )
+                    VALUES
+                    (
+                        @NOME,
+                        @EMAIL,
+                        @TELEFONE,
                         @EMPRESA,
                         @CARGO
-	                );";
+                    );";
 
-            sqlInsercao +=
-                @"SELECT SCOPE_IDENTITY();";
+            sqlInsercao += @"SELECT SCOPE_IDENTITY();";
 
             comandoInsercao.CommandText = sqlInsercao;
 
-            comandoInsercao.Parameters.AddWithValue("NOME", contato.Nome);
-            comandoInsercao.Parameters.AddWithValue("EMAIL", contato.Email);
-            comandoInsercao.Parameters.AddWithValue("TELEFONE", contato.Telefone);
-            comandoInsercao.Parameters.AddWithValue("EMPRESA", contato.Empresa);
-            comandoInsercao.Parameters.AddWithValue("CARGO", contato.Cargo);
+            comandoInsercao.Parameters.AddWithValue("NOME", contatos.Nome);
+            comandoInsercao.Parameters.AddWithValue("EMAIL", contatos.Email);
+            comandoInsercao.Parameters.AddWithValue("TELEFONE", contatos.Telefone);
+            comandoInsercao.Parameters.AddWithValue("EMPRESA", contatos.Empresa);
+            comandoInsercao.Parameters.AddWithValue("CARGO", contatos.Cargo);
 
             object id = comandoInsercao.ExecuteScalar();
 
-            contato.Id = Convert.ToInt32(id);
+            contatos.Id = Convert.ToInt32(id);
 
-            conexaoComBanco.Close();
+            con.Close();
+        }
+
+        public void AtualizarContato(Contato contatos)
+        {
+
+            SqlConnection con = BancoDeDados.AbrirConexao();
+
+            SqlCommand comandoAtualizacao = new SqlCommand();
+            comandoAtualizacao.Connection = con;
+
+            string sqlAtualizacao =
+                @"UPDATE TBCONTATO
+                    SET
+                        [NOME] = @NOME,
+                        [EMAIL] = @EMAIL,
+                        [TELEFONE] = @TELEFONE,
+                        [EMPRESA] = @EMPRESA,
+                        [CARGO] = @CARGO
+                    WHERE
+                        [ID] = @ID";
+
+            comandoAtualizacao.CommandText = sqlAtualizacao;
+
+            comandoAtualizacao.Parameters.AddWithValue("ID", contatos.Id);
+            comandoAtualizacao.Parameters.AddWithValue("NOME", contatos.Nome);
+            comandoAtualizacao.Parameters.AddWithValue("EMAIL", contatos.Email);
+            comandoAtualizacao.Parameters.AddWithValue("TELEFONE", contatos.Telefone);
+            comandoAtualizacao.Parameters.AddWithValue("EMPRESA", contatos.Empresa);
+            comandoAtualizacao.Parameters.AddWithValue("CARGO", contatos.Cargo);
+
+            comandoAtualizacao.ExecuteNonQuery();
+
+            con.Close();
+        }
+
+        public void ExcluirContato(Contato contatos)
+        {
+            SqlConnection con = BancoDeDados.AbrirConexao();
+
+            SqlCommand comandoExclusao = new SqlCommand();
+            comandoExclusao.Connection = con;
+
+            string sqlExclusao =
+                @"DELETE FROM TBCONTATO	                
+	                WHERE 
+		                [ID] = @ID";
+
+            comandoExclusao.CommandText = sqlExclusao;
+
+            comandoExclusao.Parameters.AddWithValue("ID", contatos.Id);
+
+            comandoExclusao.ExecuteNonQuery();
+
+            con.Close();
         }
 
         public Contato SelecionarContatoPorId(int idPesquisado)
         {
-            string enderecoDBTarefas =
-              @"Data Source=(LocalDb)\MSSqlLocalDB;Initial Catalog=DBTarefa;Integrated Security=True;Pooling=False";
-
-            SqlConnection conexaoComBanco = new SqlConnection();
-            conexaoComBanco.ConnectionString = enderecoDBTarefas;
-            conexaoComBanco.Open();
+            SqlConnection con = BancoDeDados.AbrirConexao();
 
             SqlCommand comandoSelecao = new SqlCommand();
-            comandoSelecao.Connection = conexaoComBanco;
+            comandoSelecao.Connection = con;
 
             string sqlSelecao =
                 @"SELECT 
-                    [ID], 
-                    [NOME], 
-                    [EMAIL], 
-                    [TELEFONE], 
-                    [EMPRESA],
-                    [CARGO]
-                FROM 
-                    TBCONTATO
-                WHERE 
-                    ID = @ID";
+                        [ID], 
+                        [NOME], 
+                        [EMAIL],
+                        [TELEFONE],
+                        [EMPRESA],
+                        [CARGO]
+                    FROM 
+                        TBCONTATO
+                    WHERE 
+                        ID = @ID";
 
             comandoSelecao.CommandText = sqlSelecao;
             comandoSelecao.Parameters.AddWithValue("ID", idPesquisado);
@@ -92,103 +135,40 @@ namespace ControleDeTarefas.Controlador
                 return null;
 
             int id = Convert.ToInt32(leitorContatos["ID"]);
+
             string nome = Convert.ToString(leitorContatos["NOME"]);
+
             string email = Convert.ToString(leitorContatos["EMAIL"]);
-            int telefone = Convert.ToInt32(leitorContatos["TELEFONE"]);
+
+            string telefone = Convert.ToString(leitorContatos["TELEFONE"]);
+
             string empresa = Convert.ToString(leitorContatos["EMPRESA"]);
+
             string cargo = Convert.ToString(leitorContatos["CARGO"]);
 
-            Contato f = new Contato(nome, email, telefone, empresa, cargo);
-            f.Id = id;
+            Contato c = new Contato(nome, email, telefone, empresa, cargo);
+            c.Id = id;
 
-            conexaoComBanco.Close();
+            con.Close();
 
-            return f;
-        }
-
-        public void ExcluirContato(Contato contato)
-        {
-            string enderecoDBTarefas =
-               @"Data Source=(LocalDb)\MSSqlLocalDB;Initial Catalog=DBTarefa;Integrated Security=True;Pooling=False";
-
-            SqlConnection conexaoComBanco = new SqlConnection();
-            conexaoComBanco.ConnectionString = enderecoDBTarefas;
-            conexaoComBanco.Open();
-
-            SqlCommand comandoExclusao = new SqlCommand();
-            comandoExclusao.Connection = conexaoComBanco;
-
-            string sqlExclusao =
-                @"DELETE FROM TBCONTATO 	                
-                 WHERE 
-                  [ID] = @ID";
-
-            comandoExclusao.CommandText = sqlExclusao;
-
-            comandoExclusao.Parameters.AddWithValue("ID", contato.Id);
-
-            comandoExclusao.ExecuteNonQuery();
-
-            conexaoComBanco.Close();
-        }
-
-        public void EditarContato(Contato contato)
-        {
-            string enderecoDBTarefas =
-               @"Data Source=(LocalDb)\MSSqlLocalDB;Initial Catalog=DBTarefa;Integrated Security=True;Pooling=False";
-
-            SqlConnection conexaoComBanco = new SqlConnection();
-            conexaoComBanco.ConnectionString = enderecoDBTarefas;
-            conexaoComBanco.Open();
-
-            SqlCommand comandoAtualizacao = new SqlCommand();
-            comandoAtualizacao.Connection = conexaoComBanco;
-
-            string sqlAtualizacao =
-                @"UPDATE TBCONTATO 
-                 SET	
-                  [NOME] = @NOME, 
-                  [EMAIL]=@EMAIL, 
-                  [TELEFONE] = @TELEFONE,
-                  [EMPRESA] = @EMPRESA,
-                  [CARGO] = @CARGO
-                 WHERE 
-                  [ID] = @ID";
-
-            comandoAtualizacao.CommandText = sqlAtualizacao;
-
-            comandoAtualizacao.Parameters.AddWithValue("ID", contato.Id);
-            comandoAtualizacao.Parameters.AddWithValue("NOME", contato.Nome);
-            comandoAtualizacao.Parameters.AddWithValue("EMAIL", contato.Email);
-            comandoAtualizacao.Parameters.AddWithValue("TELEFONE", contato.Telefone);
-            comandoAtualizacao.Parameters.AddWithValue("EMPRESA", contato.Empresa);
-            comandoAtualizacao.Parameters.AddWithValue("CARGO", contato.Cargo);
-
-            comandoAtualizacao.ExecuteNonQuery();
-
-            conexaoComBanco.Close();
+            return c;
         }
 
         public List<Contato> SelecionarTodosOsContatos()
         {
-            string enderecoDBTarefas =
-              @"Data Source=(LocalDb)\MSSqlLocalDB;Initial Catalog=DBTarefa;Integrated Security=True;Pooling=False";
-
-            SqlConnection conexaoComBanco = new SqlConnection();
-            conexaoComBanco.ConnectionString = enderecoDBTarefas;
-            conexaoComBanco.Open();
+            SqlConnection con = BancoDeDados.AbrirConexao();
 
             SqlCommand comandoSelecao = new SqlCommand();
-            comandoSelecao.Connection = conexaoComBanco;
+            comandoSelecao.Connection = con;
 
             string sqlSelecao =
-                     @"SELECT 
+                @"SELECT 
                         [ID], 
                         [NOME], 
                         [EMAIL], 
-                        [TELEFONE], 
+                        [TELEFONE],
                         [EMPRESA],
-                        [CARGO] 
+                        [CARGO]
                     FROM 
                         TBCONTATO";
 
@@ -201,19 +181,26 @@ namespace ControleDeTarefas.Controlador
             while (leitorContatos.Read())
             {
                 int id = Convert.ToInt32(leitorContatos["ID"]);
+
                 string nome = Convert.ToString(leitorContatos["NOME"]);
+
                 string email = Convert.ToString(leitorContatos["EMAIL"]);
-                int telefone = Convert.ToInt32(leitorContatos["TELEFONE"]);
+
+                string telefone = Convert.ToString(leitorContatos["TELEFONE"]);
+
                 string empresa = Convert.ToString(leitorContatos["EMPRESA"]);
+
                 string cargo = Convert.ToString(leitorContatos["CARGO"]);
 
-                Contato f = new Contato(nome, email, telefone, empresa, cargo);
-                f.Id = id;
+                Contato contato = new Contato(nome, email, telefone, empresa, cargo);
 
-                contatos.Add(f);
+                contato.Id = id;
+
+                contatos.Add(contato);
             }
 
-            conexaoComBanco.Close();
+            con.Close();
+
             return contatos;
         }
     }

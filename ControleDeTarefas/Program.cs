@@ -1,94 +1,113 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ControleDeTarefas.Dominio;
 using ControleDeTarefas.Telas;
 using ControleDeTarefas.Controlador;
 
 namespace ControleDeTarefas
 {
-    class Program
-    {       
-        static void Main(string[] args)
+    public class Program
+    {
+        public static void Main(string[] args)
         {
-            //Tarefa tarefa = new Tarefa("aaa", DateTime.Now, DateTime.Now, 1, "50%");
+            ControladorTarefa controlador = new ControladorTarefa();
+            ControladorContato controlador1 = new ControladorContato();
+            ControladorCompromissos controlador2 = new ControladorCompromissos();
 
-            ////tarefa.InserirTarefa(tarefa);
-            //tarefa.Titulo = "Limpar o Pc";
-            //tarefa.DataCriacao = new DateTime(2021, 12, 10);
-            //tarefa.DataConclusao = DateTime.Now;
-            //tarefa.Prioridade = 1;
-            //tarefa.Percentual = "50%";
+            TelaTarefa telaTarefa = new TelaTarefa(controlador);
+            TelaContato telaContato = new TelaContato(controlador1);
+            TelaCompromissos telaCompromissos = new TelaCompromissos(controlador2);
 
-            TelaContato telaContato = new TelaContato();
-
-            TelaTarefa telaTarefa = new TelaTarefa();
-            ControladorTarefa controladorTarefa = new ControladorTarefa();
-            ControladorContato controladorContato = new ControladorContato();
-
-            TelaPrincipal telaPrincipal = new TelaPrincipal();
+            string opcao = " ";
 
             Console.Clear();
 
-            while (true)
+            Console.WriteLine("     ╔══════════════╗");
+            Console.WriteLine("     ║ e-Agenda 3.0 ║");
+            Console.WriteLine("╔═════════════════════════╗");
+            Console.WriteLine("║                         ║");
+            Console.WriteLine("║         Digite:         ║");
+            Console.WriteLine("║                         ║");
+            Console.WriteLine("║   1: Menu Lista         ║");
+            Console.WriteLine("║   2: Menu Contatos      ║");
+            Console.WriteLine("║   3: Menu Compromissos  ║");
+            Console.WriteLine("║                         ║");
+            Console.WriteLine("║═════════════════════════║");
+            Console.WriteLine("║      S para sair        ║");
+            Console.WriteLine("╚═════════════════════════╝");
+
+            opcao = Console.ReadLine();
+
+            if (opcao == "1")
             {
-                string opcao = telaPrincipal.ObterOpcaoMenuPrincipal();
-
-                if (opcao.Equals("s", StringComparison.OrdinalIgnoreCase))
-                    break;
-
-                if (opcao == "1")
+                while (true)
                 {
-                    Console.Clear();
-                    string obterOpcaoMenuTarefa = telaTarefa.ObterOpcaoMenuTarefa();
+                    telaTarefa.ObterOpcao();
 
-                    if (obterOpcaoMenuTarefa.Equals("s", StringComparison.OrdinalIgnoreCase))
+                    if (Console.ReadLine().Equals("s", StringComparison.OrdinalIgnoreCase))
                         break;
 
-                    if (obterOpcaoMenuTarefa == "1")
-                        controladorTarefa.InserirTarefa(new Tarefa("aaa", DateTime.Now, DateTime.Now, 1, "50%"));
+                    if (opcao == "1")
+                        telaTarefa.CadastrarNovaTarefa();
 
-                    else if (obterOpcaoMenuTarefa == "2")
-                    {
-                        //foreach (List<Tarefa> item in testeTarefa)
-                        //{
-                        //    Console.WriteLine(item.Titulo);
-                        //}
-                    }
-                        //telaTarefa.VisualizarEquipamentos(new Tarefa());
+                    if (opcao == "2")
+                        telaTarefa.AtualizarTarefa();
 
-                    //else if (obterOpcaoMenuTarefa == "3")
-                    //    telaTarefa.EditarEquipamento();
+                    if (opcao == "3")
+                        telaTarefa.ExcluirTarefa();
 
-                    //else if (obterOpcaoMenuTarefa == "4")
-                    //    telaTarefa.ExcluirTarefa();
+                    if (opcao == "4")
+                        telaTarefa.VisualizarTarefasEmAberto();
+
+                    if (opcao == "5")
+                        telaTarefa.VisualizarTarefasConcluidas();
                 }
-                else if (opcao == "2")
+            }
+
+            if (opcao == "2")
+            {
+                while (true)
                 {
+                    telaContato.ObterOpcao();
 
-                    Console.Clear();
-                    string obterOpcaoMenuContato = telaContato.ObterOpcaoMenuContato();                    
-
-                    if (obterOpcaoMenuContato.Equals("s", StringComparison.OrdinalIgnoreCase))
+                    if (Console.ReadLine().Equals("s", StringComparison.OrdinalIgnoreCase))
                         break;
 
-                    //if (obterOpcaoMenuContato == "1")
-                    //    controladorContato.InserirContato();
+                    if (opcao == "1")
+                        telaContato.CadastrarNovoContato();
 
-                    //else if (obterOpcaoMenuContato == "2")
-                    //    controladorContato.SelecionarTodosOsContatos();
+                    if (opcao == "2")
+                        telaContato.AtualizarContato();
 
-                    //else if (obterOpcaoMenuContato == "3")
-                    //    controladorContato.EditarContato();
+                    if (opcao == "3")
+                        telaContato.ExcluirContato();
 
-                    //else if (obterOpcaoMenuContato == "4")
-                    //    controladorContato.ExcluirContato();
-
+                    if (opcao == "4")
+                        telaContato.VisualizarTodosOsContatos();
                 }
 
-                Console.Clear();
+            }
+
+            if (opcao == "3")
+            {
+                while (true)
+                {
+                    telaCompromissos.ObterOpcao();
+
+                    if (Console.ReadLine().Equals("s", StringComparison.OrdinalIgnoreCase))
+                        break;
+
+                    else if (opcao == "1")
+                        telaCompromissos.CadastrarNovoCompromisso();
+
+                    else if (opcao == "2")
+                        telaCompromissos.AtualizarCompromisso();
+
+                    else if (opcao == "3")
+                        telaCompromissos.ExcluirCompromisso();
+
+                    else if (opcao == "4")
+                        telaCompromissos.VisualizarTodosOsCompromisso();
+                }
             }
         }
     }

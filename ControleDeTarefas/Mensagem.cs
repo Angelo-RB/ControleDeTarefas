@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ControleDeTarefas.Telas
+namespace ControleDeTarefas
 {
-    public class TelaBase
-    {     
-
+    public enum Mensagem
+    {
+        Sucesso, Atencao, Erro
     }
 }
