@@ -16,6 +16,7 @@ namespace ControleDeTarefas.Telas
 
         public override void ObterOpcao()
         {
+            Console.Clear();
 
             Console.WriteLine("   ╔════════Menu Compromissos════════╗   ");
             Console.WriteLine("╔═══════════════════════════════════════╗");

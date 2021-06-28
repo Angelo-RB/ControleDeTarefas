@@ -39,6 +39,7 @@ namespace ControleDeTarefas.Controlador
 
             comandoInsercao.Parameters.AddWithValue("TITULO", tarefa.Titulo);
             comandoInsercao.Parameters.AddWithValue("DATACRIACAO", tarefa.DataCriacao);
+            comandoInsercao.Parameters.AddWithValue("DATACONCLUSAO", tarefa.DataConclusao);
             comandoInsercao.Parameters.AddWithValue("PRIORIDADE", tarefa.Prioridade);
 
             object id = comandoInsercao.ExecuteScalar();

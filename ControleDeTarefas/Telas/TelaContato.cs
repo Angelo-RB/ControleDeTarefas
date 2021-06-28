@@ -17,6 +17,7 @@ namespace ControleDeTarefas.Telas
 
         public override void ObterOpcao()
         {
+            Console.Clear();
             Console.WriteLine("    ╔═════════Menu Contato═════════╗    ");
             Console.WriteLine("╔══════════════════════════════════════╗");
             Console.WriteLine("║                                      ║");
@@ -33,16 +34,16 @@ namespace ControleDeTarefas.Telas
 
         }
 
-        public bool OpcaoInvalida(string opcao)
-        {
-            if (opcao != "1" && opcao != "2" && opcao != "3" && opcao != "4" && opcao != "S" && opcao != "s")
-            {
-                Console.WriteLine("Opção inválida");
-                return true;
-            }
-            else
-                return false;
-        }
+        //public bool OpcaoInvalida(string opcao)
+        //{
+        //    if (opcao != "1" && opcao != "2" && opcao != "3" && opcao != "4" && opcao != "S" && opcao != "s")
+        //    {
+        //        Console.WriteLine("Opção inválida");
+        //        return true;
+        //    }
+        //    else
+        //        return false;
+        //}
 
         public void CadastrarNovoContato()
         {

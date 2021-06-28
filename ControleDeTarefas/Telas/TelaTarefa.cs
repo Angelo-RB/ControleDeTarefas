@@ -14,6 +14,7 @@ namespace ControleDeTarefas.Telas
         }
         public override void ObterOpcao()
         {
+            Console.Clear();
             Console.WriteLine("    ╔═════════Menu Tarefa═════════╗    ");
             Console.WriteLine("╔════════════════════════════════════╗");
             Console.WriteLine("║                                    ║");
@@ -31,16 +32,16 @@ namespace ControleDeTarefas.Telas
 
         }
 
-        public bool OpcaoInvalida(string opcao)
-        {
-            if (opcao != "1" && opcao != "2" && opcao != "3" && opcao != "4" && opcao != "S" && opcao != "s")
-            {
-                Console.WriteLine("Opção inválida");
-                return true;
-            }
-            else
-                return false;
-        }
+        //public bool OpcaoInvalida(string opcao)
+        //{
+        //    if (opcao != "1" && opcao != "2" && opcao != "3" && opcao != "4" && opcao != "S" && opcao != "s")
+        //    {
+        //        Console.WriteLine("Opção inválida");
+        //        return true;
+        //    }
+        //    else
+        //        return false;
+        //}
 
         public void CadastrarNovaTarefa()
         {
@@ -49,7 +50,7 @@ namespace ControleDeTarefas.Telas
             Console.Write("Digite o título da tarefa: ");
             string titulo = Console.ReadLine();
 
-            Console.Write("Digite a data de abertura da tarefa: ");
+            Console.Write("Digite a data de abertura da tarefa Ex(dia/mês/ano): ");
             DateTime dataAbertura = Convert.ToDateTime(Console.ReadLine());
 
             Prioridade prioridade;
